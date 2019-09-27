@@ -1,0 +1,20 @@
+<phpunit bootstrap="vendor/autoload.php" colors="true" cacheResult="false">
+    <testsuites>
+        <testsuite name="tests">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+    <logging>
+        <log type="coverage-html" target="coverage"/>
+        <log type="coverage-clover" target="coverage.xml"/>
+    </logging>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">src/</directory>
+            <exclude>
+                <file>src/Flash/functions.php</file>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>
+

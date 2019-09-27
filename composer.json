@@ -1,0 +1,25 @@
+{
+  "name": "felixdorn/flash",
+  "description": "Framework agnostic flash notifications for PHP 7+",
+  "type": "library",
+  "require-dev": {
+    "phpunit/phpunit": "^8.3"
+  },
+  "license": "GPL-3.0",
+  "authors": [
+    {
+      "name": "felixdorn",
+      "email": "github@felixdorn.fr"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Felix\\": "src/"
+    },
+    "files": [
+      "src/Flash/functions.php"
+    ]
+  },
+  "minimum-stability": "stable",
+  "require": {}
+}
