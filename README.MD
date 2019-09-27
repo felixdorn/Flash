@@ -5,6 +5,7 @@
 [![codecov](https://img.shields.io/codecov/c/github/felixdorn/flash)](https://codecov.io/gh/felixdorn/flash)
 ![Packagist](https://img.shields.io/packagist/dm/felixdorn/flash)
 
+
 ### Installation
 Via composer
 > $ composer require felixdorn/flash
