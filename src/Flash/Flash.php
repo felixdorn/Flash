@@ -29,7 +29,7 @@ class Flash implements FlashInterface
      */
     public function message($content, string $type): FlashInterface
     {
-        $content = $content = $this->normalizeContent($content);
+        $content = $this->normalizeContent($content);
         $this->flash($content, $type);
 
         return $this;
