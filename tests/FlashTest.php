@@ -44,7 +44,7 @@ class FlashTest extends TestCase
 
         $this->assertEquals(
             '<section class="alert alert-error">message</section>',
-            $this->session[Flasher::ARRAY_KEY]['error'][0]
+            $this->session['error'][0]
         );
 
         $this->flasher->clear();
