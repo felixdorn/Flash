@@ -45,7 +45,7 @@ class FlasherTest extends TestCase
 
         $this->assertEquals(
             '<section class="alert alert-error">message</section>',
-            $this->session[Flasher::ARRAY_KEY]['error'][0]
+            $this->session['error'][0]
         );
 
         $this->flasher->clear();
@@ -189,7 +189,7 @@ class FlasherTest extends TestCase
         $storer->setAccessible(true);
         $storer = $storer->getValue($this->flasher);
 
-        $this->assertEquals('output', $storer[Flasher::ARRAY_KEY]['error'][0]);
+        $this->assertEquals('output', $storer['error'][0]);
 
         $this->flasher->clear();
     }
@@ -243,22 +243,5 @@ class FlasherTest extends TestCase
         $this->assertEquals('<section class="alert alert-warning">some warning</section>', $output);
 
         $this->flasher->clear();
-    }
-
-    /**
-     * @covers \Felix\Flash\Flasher::handleStorer
-     */
-    public function testHandleStorer()
-    {
-        $flasher = new Flasher();
-
-        $flasher->warning('warning');
-
-        $reflection = new \ReflectionClass(Flasher::class);
-        $storer = $reflection->getProperty('storer');
-        $storer->setAccessible(true);
-        $storer = $storer->getValue($flasher);
-
-        $this->assertArrayNotHasKey('warning', $storer[Flasher::ARRAY_KEY]);
     }
 }

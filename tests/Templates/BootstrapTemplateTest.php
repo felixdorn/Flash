@@ -32,4 +32,14 @@ class BootstrapTemplateTest extends TestCase
         $template = new BootstrapTemplate();
         $this->assertEquals('<section class="alert alert-error">error</section>', $template->wrap('error', 'error'));
     }
+
+    /**
+     * @covers \Felix\Flash\Templates\BootstrapTemplate::wrap
+     */
+    public function testEscapeHTML()
+    {
+        $template = new BootstrapTemplate();
+        $this->assertEquals('<section class="alert alert-error">error</section>', $template->wrap('error', 'error'));
+    }
+
 }

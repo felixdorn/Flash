@@ -22,7 +22,6 @@ use Felix\Flash\Templates\DefaultTemplate;
 
 class Flasher implements FlashInterface
 {
-    public const ARRAY_KEY = '__flash#4f6c07d6f12b98d2ec2e51f77cd6879ece9ab469';
     /**
      * @var Flasher
      */
@@ -35,15 +34,15 @@ class Flasher implements FlashInterface
      * @var FlashInterface
      */
     private $flash;
+
     /**
      * @var array
      */
-    private $storer;
+    private $storer = null;
 
     public function __construct()
     {
         $this->flash = new Flash();
-        $this->storer = [self::ARRAY_KEY => []];
     }
 
     /**
@@ -62,10 +61,10 @@ class Flasher implements FlashInterface
     }
 
     /**
-     * @param array $storer
+     * @param array|\ArrayAccess $storer
      * @return $this
      */
-    public function setStorer(array &$storer)
+    public function setStorer(&$storer)
     {
         $this->storer = &$storer;
 
@@ -76,11 +75,21 @@ class Flasher implements FlashInterface
      * @param TemplateInterface $template
      * @return Flasher
      */
-    public function pushTemplate(TemplateInterface $template): Flasher
+    public function setTemplate(TemplateInterface $template): Flasher
     {
         $this->template = $template;
 
         return $this;
+    }
+
+    /**
+     * @param TemplateInterface $template
+     * @return Flasher
+     * @deprecated
+     */
+    public function pushTemplate(TemplateInterface $template): Flasher
+    {
+        return $this->setTemplate($template);
     }
 
     /**
@@ -158,7 +167,7 @@ class Flasher implements FlashInterface
     {
         $this->handleStorer();
 
-        $this->storer[self::ARRAY_KEY][$type][] = $output;
+        $this->storer[$type][] = $output;
 
         return $this;
     }
@@ -168,11 +177,8 @@ class Flasher implements FlashInterface
       */
     private function handleStorer()
     {
-        if ($this->storer === [self::ARRAY_KEY => []]) {
-            if (session_status() !== PHP_SESSION_ACTIVE) {
-                session_start();
-            }
-            $this->storer = &$_SESSION;
+        if ($this->storer === null) {
+            $this->storer = new SessionStorer();
         }
     }
 
@@ -180,26 +186,33 @@ class Flasher implements FlashInterface
      * @param string|null $type
      * @return string
      */
-    public function display(?string $type = null): string
+    public function render(?string $type = null): string
     {
         $buffer = '';
 
-        if (array_key_exists(self::ARRAY_KEY, $this->storer) === false) {
-            return $buffer;
-        }
-
         if ($type === null) {
-            $messages = array_flatten($this->storer[self::ARRAY_KEY]);
+            $messages = Utils::array_flatten($this->storer);
             return implode(PHP_EOL, $messages);
         }
 
-        if (array_key_exists($type, $this->storer[self::ARRAY_KEY]) === false) {
+        if (isset($this->storer[$type]) === false) {
             return $buffer;
 
         }
-        $messages = array_flatten($this->storer);
+        $messages =  Utils::array_flatten($this->storer);
 
         return implode(PHP_EOL, $messages);
+    }
+
+
+    /**
+     * @param string|null $type
+     * @return string
+     * @deprecated
+     */
+    public function display(?string $type = null): string
+    {
+        return $this->render($type);
     }
 
     /**
@@ -208,7 +221,9 @@ class Flasher implements FlashInterface
     public function clear()
     {
 
-        unset($this->storer[self::ARRAY_KEY]);
+        foreach($this->storer as $k => $v) {
+            unset($this->storer[$k]);
+        }
 
         return $this;
     }

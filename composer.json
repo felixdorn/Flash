@@ -14,12 +14,19 @@
   ],
   "autoload": {
     "psr-4": {
-      "Felix\\": "src/"
+      "Felix\\Flash\\": "src/"
     },
     "files": [
-      "src/Flash/functions.php"
+      "src/functions.php"
     ]
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Felix\\Tests\\Flash\\": "tests/"
+    }
+  },
   "minimum-stability": "stable",
-  "require": {}
+  "require": {
+    "php": "^7.1"
+  }
 }
