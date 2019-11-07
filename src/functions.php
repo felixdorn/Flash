@@ -43,5 +43,6 @@ if (!function_exists('displayFlashes')) {
 if (!function_exists('clearFlashes')) {
     function clearFlashes()
     {
+          return call_user_func_array([Flasher::class, 'clear'], func_get_args());
     }
 }
