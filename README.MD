@@ -17,6 +17,10 @@ This package is made to work with $_SESSION and they will be automatically start
 $flasher = Flasher::getInstance();
 ```
 
+If you don't wan't to use sessions :
+```php
+$flasher->setStorer($myArray);
+```
 You're good to go.
 
 ### Usage
@@ -33,9 +37,7 @@ You're good to go.
 
 ###### OOP
 ```php
-$flash = new Flash();
-
-$flash
+$flasher
     ->message('Some error', 'error')
     ->error(['Error 1', 'Error 2'])
     ->success('Blabla')
