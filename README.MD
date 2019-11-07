@@ -8,7 +8,7 @@
 
 ### Installation
 Via composer
-> $ composer require felixdorn/flash
+> composer require felixdorn/flash
 
 ### Getting started
 This package is made to work with $_SESSION and they will be automatically started. However, you could provide an array to work with instead of sessions. In this case, sessions will not be started.
