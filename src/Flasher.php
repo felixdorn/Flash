@@ -178,7 +178,10 @@ class Flasher implements FlashInterface
     private function handleStorer()
     {
         if ($this->storer === null) {
-            $this->storer = new SessionStorer();
+            if (session_status() === PHP_SESSION_ACTIVE) {
+                session_start();   
+            }
+            $this->storer = &$_SESSION;
         }
     }
 
