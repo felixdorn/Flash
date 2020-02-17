@@ -1,48 +1,32 @@
 <?php
-/**
- * This file is part of Flash.
- *
- * Flash is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Flash is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Flash.  If not, see <https://www.gnu.org/licenses/>.
- */
+
 
 use Felix\Flash\Flash;
-use Felix\Flash\Flasher;
-use Felix\Flash\FlashInterface;
+use Felix\Flash\FunctionalFlash;
 
-if (!function_exists('flash')) {
-    function flash($content, ?string $type = null): FlashInterface
-    {
-        $flash = new Flash();
+/**
+ * @param string|null $type
+ * @param string|null $message
+ * @return Flash
+ * @codeCoverageIgnore Even if this function is tested
+ * @see \Felix\Tests\Flash\FunctionalFlashTest::test_flash_function()
+ */
+function flash(string $type = null, ?string $message = null): Flash
+{
+    $manager = FunctionalFlash::getInstance()->getFlash();
 
-        if ($content === null && $type === null) {
-            return $flash;
-        }
-
-        return $flash->message($content, $type);
+    if ($manager === null) {
+        throw new RuntimeException(
+            sprintf(
+                'Trying to flash `%s` using the flash() function but Flash is not initialised',
+                $message
+            )
+        );
     }
-}
 
-if (!function_exists('displayFlashes')) {
-    function displayFlashes()
-    {
-        return call_user_func_array([Flasher::class, 'display'], func_get_args());
+    if (!is_string($type) || !is_string($message)) {
+        return $manager;
     }
-}
 
-if (!function_exists('clearFlashes')) {
-    function clearFlashes()
-    {
-          return call_user_func_array([Flasher::class, 'clear'], func_get_args());
-    }
+    return $manager->flash($type, $message);
 }

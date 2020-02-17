@@ -1,128 +1,264 @@
 <?php
-/**
- * This file is part of Flash.
- *
- * Flash is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Flash is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Flash.  If not, see <https://www.gnu.org/licenses/>.
- */
+
 
 namespace Felix\Tests\Flash;
 
-
+use Felix\Flash\Drivers\ArrayDriver;
+use Felix\Flash\Drivers\SessionDriver;
 use Felix\Flash\Flash;
-use Felix\Flash\Flasher;
-use PHPUnit\Framework\TestCase;
+use Felix\Flash\Templates\InteroperableTemplate;
+use Felix\Flash\Templates\TestableTemplate;
 
 class FlashTest extends TestCase
 {
-    /**
-     * @var Flasher
-     */
-    private $flasher;
-    /**
-     * @var array
-     */
-    private $session;
-
-
-    /**
-     * @covers \Felix\Flash\Flash::message()
-     */
-    public function testMessage()
+    public function test_success_method_flash_called()
     {
-        $this->flasher->message('message', 'error');
+        $flash = $this->createPartialMock(Flash::class, ['flash']);
+        $flash->expects(
+            $this->once()
+        )->method('flash')->with('success', 'Hello world!');
+        $flash->success('Hello world!');
+    }
+
+    public function test_success_method_add_flash_to_driver()
+    {
+        $this->flash->success('Hello world!');
 
         $this->assertEquals(
-            '<section class="alert alert-error">message</section>',
-            $this->session['error'][0]
+            [
+                'success' => [
+                    'Hello world!'
+                ]
+            ],
+            $this->flash->getDriver()->all()
+        );
+    }
+
+    public function test_error_method_flash_called()
+    {
+        $flash = $this->createPartialMock(Flash::class, ['flash']);
+        $flash->expects(
+            $this->once()
+        )->method('flash')->with('error', 'Hello world!');
+        $flash->error('Hello world!');
+    }
+
+    public function test_error_method_add_flash_to_driver()
+    {
+        $this->flash->error('Hello world!');
+
+        $this->assertEquals(
+            [
+                'error' => [
+                    'Hello world!'
+                ]
+            ],
+            $this->flash->getDriver()->all()
+        );
+    }
+
+    public function test_warning_method_flash_called()
+    {
+        $flash = $this->createPartialMock(Flash::class, ['flash']);
+        $flash->expects(
+            $this->once()
+        )->method('flash')->with('warning', 'Hello world!');
+        $flash->warning('Hello world!');
+    }
+
+    public function test_warning_method_add_flash_to_driver()
+    {
+        $this->flash->warning('Hello world!');
+
+        $this->assertEquals(
+            [
+                'warning' => [
+                    'Hello world!'
+                ]
+            ],
+            $this->flash->getDriver()->all()
+        );
+    }
+
+    public function test_info_method_flash_called()
+    {
+        $flash = $this->createPartialMock(Flash::class, ['flash']);
+        $flash->expects(
+            $this->once()
+        )->method('flash')->with('info', 'Hello world!');
+        $flash->info('Hello world!');
+    }
+
+    public function test_info_method_add_flash_to_driver()
+    {
+        $this->flash->info('Hello world!');
+
+        $this->assertEquals(
+            [
+                'info' => [
+                    'Hello world!'
+                ]
+            ],
+            $this->flash->getDriver()->all()
+        );
+    }
+
+    public function test_set_and_get_template()
+    {
+        $this->flash->setTemplate(
+            'Hello world!'
         );
 
-        $this->flasher->clear();
+        $this->assertEquals(
+            new InteroperableTemplate(
+                'Hello world!'
+            ),
+            $this->flash->getTemplate()
+        );
     }
 
-    /**
-     * @covers \Felix\Flash\Flash::error()
-     */
-    public function testError()
+    public function test_clear_flashes()
     {
-        $this->flasher->error('error');
+        $driver = $this->createMock(SessionDriver::class);
 
-        $output = $this->flasher->display();
+        $driver->expects(
+            $this->once()
+        )->method('clear')->willReturnSelf();
 
-        $this->assertEquals('<section class="alert alert-error">error</section>', $output);
+        $this->flash->setDriver($driver);
 
-        $this->flasher->clear();
+        $this->flash->clear();
     }
 
-    /**
-     * @covers \Felix\Flash\Flash::warning()
-     */
-    public function testWarning()
+    public function test_render_all()
     {
-        $this->flasher->warning('warning');
+        $driver = $this->createMock(SessionDriver::class);
+        $driver->expects(
+            $this->once()
+        )->method('all')->willReturn([
+            'success' => [
+                'Hello world!'
+            ],
+            'error' => [
+                'Mad world!'
+            ]
+        ]);
 
-        $output = $this->flasher->display();
+        $template = $this->createMock(TestableTemplate::class);
+        $template->expects(
+            $this->exactly(2)
+        )->method('toHtml')->withAnyParameters()->willReturn('content');
 
-        $this->assertEquals('<section class="alert alert-warning">warning</section>', $output);
 
-        $this->flasher->clear();
+        $this->flash->setDriver($driver);
+        $this->flash->setTemplate($template);
+
+        $output = $this->flash->render();
+
+        $this->assertEquals('contentcontent', $output);
     }
 
-    /**
-     * @covers \Felix\Flash\Flash::success()
-     */
-    public function testSuccess()
+    public function test_render_all_with_specific_type()
     {
-        $this->flasher->success('success');
+        $driver = $this->createMock(ArrayDriver::class);
+        $driver->expects(
+            $this->once()
+        )->method('all')->with('success')->willReturn([
+            'Hello world!'
+        ]);
 
-        $output = $this->flasher->display();
+        $template = $this->createMock(TestableTemplate::class);
+        $template->expects(
+            $this->once()
+        )->method('toHtml')->withAnyParameters()->willReturn('content');
 
-        $this->assertEquals('<section class="alert alert-success">success</section>', $output);
 
-        $this->flasher->clear();
+        $this->flash->setDriver($driver);
+        $this->flash->setTemplate($template);
+
+        $output = $this->flash->render('success');
+
+        $this->assertEquals('content', $output);
     }
 
-    /**
-     * @covers \Felix\Flash\Flash::info()
-     */
-    public function testInfo()
+    public function test_render_all_with_non_existing_type()
     {
-        $this->flasher->info('info');
+        $driver = $this->createMock(ArrayDriver::class);
+        $driver->expects(
+            $this->once()
+        )->method('all')->willReturn([]);
 
-        $output = $this->flasher->display();
+        $this->flash->setDriver($driver);
 
-        $this->assertEquals('<section class="alert alert-info">info</section>', $output);
-
-        $this->flasher->clear();
+        $this->assertEquals('', $this->flash->render('nonExistingType'));
     }
 
-    public function testNormalizeContentWithArray()
+    public function test_flash_with_custom_types()
     {
-        $reflection = new \ReflectionClass(Flash::class);
-        $method = $reflection->getMethod('normalizeContent');
-        $method->setAccessible(true);
-        $args = ['warning1', 'warning2'];
-        $res = $method->invokeArgs(new Flash(), [$args]);
+        $this->flash->flash('customType', 'theMessage');
 
-        $this->assertEquals(['warning1', 'warning2'], explode(PHP_EOL, $res));
+        $this->assertEquals([
+            'customType' => [
+                'theMessage'
+            ]
+        ], $this->flash->getDriver()->all());
+    }
 
-        $this->flasher->clear();
+    public function test_clear_with_custom_types()
+    {
+        $this->flash->flash('customType', 'theMessage');
+
+        $this->assertEquals([
+            'customType' => [
+                'theMessage'
+            ]
+        ], $this->flash->getDriver()->all());
+
+        $this->flash->clear();
+
+        $this->assertEquals([], $this->flash->getDriver()->all());
 
     }
 
-    protected function setUp(): void
+    public function test_set_template_from_constructor()
     {
-        $this->session = [];
-        $this->flasher = Flasher::getInstance()->setStorer($this->session);
+        $flash = new Flash($this->driver, '{type} {flash}');
+
+        $this->assertEquals(
+            new InteroperableTemplate('{type} {flash}'),
+            $flash->getTemplate()
+        );
+    }
+
+    public function test_flash_are_not_added_when_disabled()
+    {
+        $this->flash->disable();
+
+        $this->flash->warning('Hello world!');
+
+        $this->assertEquals(
+            [],
+            $this->flash->getDriver()->all()
+        );
+
+    }
+
+
+    public function test_enable_flash_after_disabling_them()
+    {
+        $this->flash->disable();
+        $this->flash->enable();
+
+        $this->flash->warning('Hello world!');
+
+        $this->assertEquals(
+            [
+                'warning' => [
+                    'Hello world!'
+                ]
+            ],
+            $this->flash->getDriver()->all()
+        );
+
     }
 }

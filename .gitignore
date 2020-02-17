@@ -1,4 +1,4 @@
 vendor
 .idea
 coverage
-coverage.xml
+clover.xml
