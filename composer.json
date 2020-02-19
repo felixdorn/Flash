@@ -1,6 +1,6 @@
 {
   "name": "felixdorn/flash",
-  "description": "Framework agnostic flash notifications for PHP 7.2+",
+  "description": "Framework agnostic flash notifications for PHP 7.3+",
   "type": "library",
   "license": "GPL-3.0-or-later",
   "require": {
