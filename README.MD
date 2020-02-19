@@ -30,6 +30,12 @@ $driver = new SessionDriver([
     // session_start options
     // see https://www.php.net/manual/fr/function.session-start.php
 ]);
+
+
+// A random template
+$template = new SpectreTemplate();
+
+$flash = new Flash($driver, $template);
 ```
 
 Next: [Usage](#usage)
