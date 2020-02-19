@@ -1,20 +1,27 @@
-<phpunit bootstrap="vendor/autoload.php" colors="true" cacheResult="false">
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
+         backupGlobals="false"
+         cacheResult="false"
+         backupStaticAttributes="false"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false">
     <testsuites>
-        <testsuite name="tests">
-            <directory>tests</directory>
+        <testsuite name="Unit">
+            <directory suffix="Test.php">./tests/</directory>
         </testsuite>
     </testsuites>
-    <logging>
-        <log type="coverage-html" target="coverage"/>
-        <log type="coverage-clover" target="coverage.xml"/>
-    </logging>
     <filter>
         <whitelist>
             <directory suffix=".php">src/</directory>
-            <exclude>
-                <file>src/Flash/functions.php</file>
-            </exclude>
         </whitelist>
     </filter>
+    <logging>
+        <log type="coverage-html" target="coverage"/>
+        <log type="coverage-clover" target="clover.xml"/>    </logging>
 </phpunit>
-

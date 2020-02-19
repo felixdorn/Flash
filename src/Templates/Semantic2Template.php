@@ -3,7 +3,7 @@
 
 namespace Felix\Flash\Templates;
 
-class BootstrapTemplate implements TemplateInterface
+class Semantic2Template implements TemplateInterface
 {
 
     /**
@@ -11,6 +11,6 @@ class BootstrapTemplate implements TemplateInterface
      */
     public function toHtml(string $type, string $message)
     {
-        return sprintf('<div class="alert alert-%s mt-4" role="alert">%s</div>', $type, $message);
+        return sprintf('<div class="ui message %s" role="alert">%s</div>', $type, $message);
     }
 }

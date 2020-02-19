@@ -1,137 +1,198 @@
+![Library logo](.github/logo.png)
 # Flash
 ![Packagist](https://img.shields.io/packagist/l/felixdorn/flash)
 ![Packagist Version](https://img.shields.io/packagist/v/felixdorn/flash)
-[![Build Status](https://travis-ci.org/felixdorn/flash.svg?branch=master)](https://travis-ci.org/felixdorn/flash)
+[![Build Status](https://travis-ci.org/felixdorn/flash.svg?branch=rc2.0.0)](https://travis-ci.org/felixdorn/flash)
 [![codecov](https://img.shields.io/codecov/c/github/felixdorn/flash)](https://codecov.io/gh/felixdorn/flash)
-![Packagist](https://img.shields.io/packagist/dm/felixdorn/flash)
 
+* Extensible
+* Fully tested and easily testable
+* Allow functional use
+* Support templates
+* Can be integrated with Redis sessions 
 
-### Installation
-Via composer
-> composer require felixdorn/flash
+Upgrading from 1.x ? [Upgrade](UPGRADE.md)
 
-### Getting started
-This package is made to work with $_SESSION and they will be automatically started. However, you could provide an array to work with instead of sessions. In this case, sessions will not be started.
+## Getting started
 
-```php
-$flasher = Flasher::getInstance();
+```bash
+composer require felixdorn/flash
 ```
 
-If you don't wan't to use sessions :
+Before using the `Flash`™, you need a [Driver](#drivers) that implements the [DriverInterface](src/Drivers/DriverInterface.php) and a Template (it can be almost anything).
+
 ```php
-$flasher->setStorer($myArray);
-```
-You're good to go.
+use Felix\Flash\Drivers\SessionDriver;
+use Felix\Flash\Flash;
+use Felix\Flash\Templates\SpectreTemplate;
 
-### Usage
-> Every global function is wrapped by a `function_exists()` to avoid compatibility issues.
-
-##### Types
-> There is currently 4 types of Flash
-* Error
-* Warning
-* Success
-* Info
-
-##### Add a message
-
-###### OOP
-```php
-$flasher
-    ->message('Some error', 'error')
-    ->error(['Error 1', 'Error 2'])
-    ->success('Blabla')
-    ->info('Some informations');
+$driver = new SessionDriver([
+    // session_start options
+    // see https://www.php.net/manual/fr/function.session-start.php
+]);
 ```
 
-###### With a function
+Next: [Usage](#usage)
+
+## Usage
+
 ```php
-flash('Some error', 'error');
+/** @var \Felix\Flash\Flash $flash */
+$flash->error('Some error');
 
-flash(['Success 1', 'Success 2'], 'success');
+$flash->render('error');
 
-flash()
-    ->message(['Some message', 'A message'], 'error')
-    ->success('Cool thing')
-    ->info(['Information 1', 'Information 2']);   
+$flash->disable();
+
+$flash->success('Yes.');
+$flash->info('In the movie Finding Nemo, they attempt to locate Nemo');
+
+$flash->enable();
+
+$flash->warning('I warn you.');
+
+// Only 'Oh nooo.' and 'Some error' will be renderer as flash was disabled when we pushed a success, info flash
+$flash->render();
+
+$flash->clear();
+
+// Nothing rendered here
+$flash->render();
 ```
 
-##### Display
+## Drivers
 
-###### OOP
+Drivers are an implementation of the method needed by the Flash Public Api.
+
+There is only 2 but it's easy to implement a new one (PR appreciated :p).
+
+* [ArrayDriver](src/Drivers/ArrayDriver.php) Driver that should only be used for testing purpose.
+* [SessionDriver](src/Drivers/SessionDriver.php) Driver to work with the most common implementation of session in PHP.
+
+Let's dive into what they do, and how they work. This part is useful if you want to create your own, otherwise jump to the [next](#templates) session.
+
+A driver must implement these 4 methods :
+
+* clear(): self
+* push(FlashData $data): self
+* all(string $type = 'all'): array
+
+### The clear method
+
+This is the simple one. It should clear any flash pushed.
+
+### The push method
+
+This one receive a FlashData with the type of flash and the value and should register it in a way to be able to get it back.
+
+### The all method
+
+This one should if `$type = 'all'` return every flash pushed formatted like this :
+
 ```php
-// Display every flash
-echo $flasher->display();
-
-// Display only success flash
-echo $flasher->display('success');
+return [
+    '{someType}' => [
+        'someFlash'
+        // ...
+    ],
+    // ...
+];
 ```
-###### With a function
+
+If the `$type` is something else then, it should return an array with only the flash inside this type.
+
+## Templates
+
+### Registering a template
 ```php
-// Display every flash
-displayFlashes();
-// Display only error flash
-displayFlashes('error');
+$flash->setTemplate(...);
 ```
 
-##### Clear flashes
+> You can also set it when constructing the *Flash* object
 
-###### OOP
-```php
-$flasher->clear();
+### Template using a string
+This one is the most basic, but also the most useful.
+
+```
+<div class="alert {type}">{flash}</div>
 ```
 
-###### With a function
-```php
-clearFlashes();
+So, if you flash an success Hello! flash. It will output 
+```
+<div class="alert success">Hello!</div>
 ```
 
-##### Templates
-Flash comes with two templates,
-* BulmaTemplate (.notification.is-{$type})
-* BootstrapTemplate (.alert.alert-{$type})
-* DefaultTemplate, same as BootstrapTemplate
+### Template using a callable
 
-##### Custom Templates
-To customize the output of `display` method, you need to register a template.
-
-###### Create a template
 ```php
+function (string $type, string $message): string {
+    return sprintf('<div class="alert %s">%s</div>', $type, $message);
+}
+```
+
+In this case, you don't need a callable, and you could just use a string based template but this is how it works. 
+
+### Template using TemplateInterface
+
+```php
+
+use Felix\Flash\Templates\TemplateInterface;
+
 class MyTemplate implements TemplateInterface {
-    
-    /**
-    * @param $messages Flashes as text
-    * @param $type Message type (info, success, warning, error)
-    */
-    public function wrap(string $messages, $type) {
-        return sprintf("<div class="alert-%s>%s</div>", $type, $messages)
+    public function toHtml(string $type,string $message){
+        return sprintf('<div class="alert %s">%s</div>', $type, $message);
     }
 }
 ```
 
-###### Register a template
-```php
-$flasher->pushTemplate($template);
+In this case, you don't need a Template class, and you could just use a string based template but this is how it works.
 
-$template = new MyTemplate();
+## Functional use
+
+There is only one method : `flash()`
+ 
+ > You need to instantiate Flash first, and then you can use flash anywhere after the Flash initialisation
+ 
+```php
+$flash = new \Felix\Flash\Flash(...);
+
+// Will return \Felix\Flash\Flash
+flash();
+
+// Will flash an error with message Uhh.. and return \Felix\Flash\Flash
+flash('error', 'Uhh..');
 ```
 
-### Advanced Configuration
+## Ideas
+* More style templates (easy)
+* Support flashing an array of flash (medium)
+* Refactor the way that FunctionalFlash and `flash` works internally (medium)
+* Event on error, success, info, warning (difficult)
+* RedisDriver (difficult)
+* ...
 
-##### Custom array
-> This is particularly useful for testing purposes, while sessions don't work well with unit tests, it's a way to bypass this limit of units tests.
-```php
-$flasher->setStorer($myArray);
-```
+If you want to help or implement one of these ideas, feel free to submit a PR.
+
+### Contributing
+
+You need to write test for the feature, and the code coverage should probably be 100%.
+Imo, getters and setters should be tested as they are part of the system.
+
+You must also run phpcs, and phpstan.
+
+Thank you!
 
 ### Security
 
 If you discover any security related issues, please email github@felixdorn.fr instead of using the issue tracker.
 
-### Credits
+## Credits
 * [Félix Dorn](https://felixdorn.fr)
 
-### License
+### Contributors
+* [Grafikart](https://github.com/grafikart)
+
+## License
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or

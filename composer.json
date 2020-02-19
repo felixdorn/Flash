@@ -1,17 +1,17 @@
 {
   "name": "felixdorn/flash",
-  "description": "Framework agnostic flash notifications for PHP 7+",
+  "description": "Framework agnostic flash notifications for PHP 7.2+",
   "type": "library",
-  "require-dev": {
-    "phpunit/phpunit": "^8.3"
+  "license": "GPL-3.0-or-later",
+  "require": {
+    "php": "^7.3"
   },
-  "license": "GPL-3.0",
-  "authors": [
-    {
-      "name": "felixdorn",
-      "email": "github@felixdorn.fr"
-    }
-  ],
+  "require-dev": {
+    "felixdorn/release-that": "^0.3.1",
+    "phpstan/phpstan": "^0.12.11",
+    "phpunit/phpunit": "^8.3",
+    "squizlabs/php_codesniffer": "^3.5"
+  },
   "autoload": {
     "psr-4": {
       "Felix\\Flash\\": "src/"
@@ -25,8 +25,13 @@
       "Felix\\Tests\\Flash\\": "tests/"
     }
   },
-  "minimum-stability": "stable",
-  "require": {
-    "php": "^7.1"
+  "authors": [
+    {
+      "name": "felixdorn",
+      "email": "github@felixdorn.fr"
+    }
+  ],
+  "config": {
+    "sort-packages": true
   }
 }
