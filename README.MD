@@ -57,7 +57,7 @@ $flash->enable();
 
 $flash->warning('I warn you.');
 
-// Only 'Oh nooo.' and 'Some error' will be renderer as flash was disabled when we pushed a success, info flash
+// Only 'Some error' and 'I warn you' will be renderered as flash are disabled when we push a success, info flash
 $flash->render();
 
 $flash->clear();
