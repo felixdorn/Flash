@@ -42,29 +42,85 @@ Next: [Usage](#usage)
 
 ## Usage
 
-```php
-/** @var \Felix\Flash\Flash $flash */
-$flash->error('Some error');
+These are common examples to work with flash.
 
-$flash->render('error');
+> In these example, i assume that you have already made the setup and have a working Flash instance.
+
+### Flashing
+```php
+$flash->success('message');
+
+$flash->warning('message');
+
+$flash->error('message');
+
+$flash->info('message');
+
+$flash->flash('type', 'message');
+```
+
+### Rendering
+
+```php
+$flash->success('message');
+$flash->warning('message1');
+
+$flash->render(); // implicitly it's $flash->render('all')
+
+// render 'message' and 'message1' using the defined template
+
+$flash->render('success');
+
+// render 'message' but not 'message1'
+```
+
+### Custom types
+```php
+$flash->message('really-important', 'In movie gone in 60 seconds, things are gone in 60 seconds');
+
+$flash->render(); // will also render `really-important` as a normal type.
+
+$flash->render('really-important'); // will render `really-important` flashes using the default template
+```
+
+### Clear messages
+
+```php
+$flash->success('Cool!');
+
+$flash->clear('success'); // delete every success flash using the Driver
+
+$flash->render(); // Won't render anything
+
+$flash->success('Cool!');
+$flash->error('Uhhhh.');
+
+$flash->clear(); // Clear every flashes
+ 
+$flash->render(); // Won't render anything
+
+
+```
+
+### Enabling & Disabling
+
+```php
+$flash->error('Bad thing.');
 
 $flash->disable();
+// NOTE: Here, when disabling like that, only flashes would be ignored
+// If you want to totally disable flashes and clear(), render()
+// See the next section 
 
-$flash->success('Yes.');
-$flash->info('In the movie Finding Nemo, they attempt to locate Nemo');
+$flash->success('Good thing');
 
 $flash->enable();
 
-$flash->warning('I warn you.');
+$flash->render('all'); // 'all' is optional, it's the default value
 
-// Only 'Some error' and 'I warn you' will be renderered as flash are disabled when we push a success, info flash
-$flash->render();
-
-$flash->clear();
-
-// Nothing rendered here
-$flash->render();
+// Here, only 'Bad thing.' will be rendered.
 ```
+
 
 ## Drivers
 
