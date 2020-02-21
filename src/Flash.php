@@ -202,5 +202,4 @@ class Flash
     {
         return !$this->disabled;
     }
-
 }

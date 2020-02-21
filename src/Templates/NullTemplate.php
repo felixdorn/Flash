@@ -3,7 +3,6 @@
 
 namespace Felix\Flash\Templates;
 
-
 class NullTemplate implements TemplateInterface
 {
 

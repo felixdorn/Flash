@@ -18,7 +18,7 @@ function flash(string $type = null, ?string $message = null): Flash
     if ($manager === null) {
         throw new RuntimeException(
             sprintf(
-                'Trying to flash `%s` using the flash() function but Flash is not initialised',
+                'Trying to flash `%s` using the flash() function but Flash has never been initialised',
                 $message
             )
         );

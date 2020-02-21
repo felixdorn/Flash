@@ -3,6 +3,9 @@
 
 namespace Felix\Flash;
 
+/**
+ * @internal
+ */
 class FlashData
 {
     /**
