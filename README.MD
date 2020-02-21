@@ -109,6 +109,15 @@ If the `$type` is something else then, it should return an array with only the f
 
 ## Templates
 
+* [BootstrapTemplate](src/Templates/BootstrapTemplate.php)
+* [BulmaTemplate](src/Templates/BulmaTemplate.php)
+* [Semantic2Template](src/Templates/SpectreTemplate.php)
+* [SpectreTemplate](src/Templates/SpectreTemplate.php)
+* [TestableTemplate](src/Templates/TestableTemplate.php)
+* [NullTemplate](src/Templates/NullTemplate.php)
+
+> TestableTemplate just returns `{type}: {value}`, so it's easier to test if a flash worked well instead of typing all of the boring HTML.
+
 ### Registering a template
 ```php
 $flash->setTemplate(...);
@@ -211,3 +220,6 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>
+
+
+[dfg]: #
