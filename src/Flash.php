@@ -186,4 +186,21 @@ class Flash
 
         return $this;
     }
+
+    /**
+     * @return bool
+     */
+    public function isDisabled(): bool
+    {
+        return $this->disabled;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEnabled(): bool
+    {
+        return !$this->disabled;
+    }
+
 }
