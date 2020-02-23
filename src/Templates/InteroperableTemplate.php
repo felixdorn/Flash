@@ -36,7 +36,10 @@ final class InteroperableTemplate
             // So something with <div class="alert alert-{type}">{value}</div> will produce
             // <div class="alert alert-error>Stop!</div> if $type == error and $flash == Stop!
             $withType = str_replace('{type}', $type, $this->template);
-            return str_replace('{value}', $flash, $withType);
+
+            // Here we support both flash and value.
+            $withValue = str_replace('{flash}', $flash, $withType);
+            return str_replace('{value}', $flash, $withValue);
         }
 
         throw new \InvalidArgumentException('Can not convert template of type ' . gettype($this->template));
