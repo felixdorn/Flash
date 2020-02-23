@@ -112,7 +112,6 @@ $flash->error('Bad thing.');
 $flash->disable();
 // NOTE: Here, when disabling like that, only flashes would be ignored
 // If you want to totally disable flashes and clear(), render()
-// See the next section 
 
 $flash->success('Good thing');
 
@@ -126,8 +125,6 @@ $flash->render('all'); // 'all' is optional, it's the default value
 
 ## Drivers
 
-Drivers are an implementation of the method needed by the Flash Public Api.
-
 There is only 2 but it's easy to implement a new one (PR appreciated :p).
 
 * [ArrayDriver](src/Drivers/ArrayDriver.php) Driver that should only be used for testing purpose.
@@ -135,7 +132,7 @@ There is only 2 but it's easy to implement a new one (PR appreciated :p).
 
 Let's dive into what they do, and how they work. This part is useful if you want to create your own, otherwise jump to the [next](#templates) session.
 
-A driver must implement these 4 methods :
+A driver must implement these 3 methods :
 
 * clear(): self
 * push(FlashData $data): self
@@ -147,7 +144,7 @@ This is the simple one. It should clear any flash pushed.
 
 ### The push method
 
-This one receive a FlashData with the type of flash and the value and should register it in a way to be able to get it back.
+This one receive a FlashData with the type of flash and the value and should register it to be able to get it back.
 
 ### The all method
 
@@ -165,6 +162,12 @@ return [
 
 If the `$type` is something else then, it should return an array with only the flash inside this type.
 
+```php
+return [
+    'someFlash'
+];
+```
+
 ## Templates
 
 * [BootstrapTemplate](src/Templates/BootstrapTemplate.php)
@@ -173,7 +176,7 @@ If the `$type` is something else then, it should return an array with only the f
 * [SpectreTemplate](src/Templates/SpectreTemplate.php)
 * [TestableTemplate](src/Templates/TestableTemplate.php)
 * [NullTemplate](src/Templates/NullTemplate.php)
-
+ 
 > TestableTemplate just returns `{type}: {value}`, so it's easier to test if a flash worked well instead of typing all of the boring HTML.
 
 ### Registering a template
@@ -270,10 +273,12 @@ If you want to help or implement one of these ideas, feel free to submit a PR.
 
 ### Contributing
 
-You need to write test for the feature, and the code coverage should probably be 100%.
-Imo, getters and setters should be tested as they are part of the system.
+I'm glad you want to contribute, there is a few things ("rules"), to check before.
 
-You must also run phpcs, and phpstan.
+* Create a new branch.
+* Write tests
+* Run phpcs, phpstan
+* Enjoy!
 
 Thank you!
 
