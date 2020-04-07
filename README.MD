@@ -110,8 +110,7 @@ $flash->render(); // Won't render anything
 $flash->error('Bad thing.');
 
 $flash->disable();
-// NOTE: Here, when disabling like that, only flashes would be ignored
-// If you want to totally disable flashes and clear(), render()
+// NOTE: Here, when disasbling, you can still clear or render
 
 $flash->success('Good thing');
 
