@@ -3,11 +3,9 @@
 ## From 1.x to 2.x
 Upgrade time: 1hour
 
-This release changed everything, for good. No more inconsistencies, following SOLID principles, and (really) well tested. 
+This release changed everything, for good. No more inconsistencies, following SOLID principles, and well tested. 
 
 But the breaking change list, is infinite.
-
-At least the namespaces are the same.
 
 *   **Removed functions** it was not compatible with the new way of managing things.
 
@@ -21,7 +19,7 @@ At least the namespaces are the same.
 
 * **Flash->message() (formerly Flasher) is now Flash->flash()**
 
-* **Storer CRAP is deleted.**, now we got drivers.
+* **Storer CRAP is gone.**, now we got drivers.
 
 * **Flash->pushTemplate() (formerly Flasher) is now Flash->setTemplate**
 
