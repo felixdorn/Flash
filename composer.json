@@ -13,9 +13,9 @@
     "php": "^8"
   },
   "require-dev": {
-    "pestphp/pest": "^1.21",
+    "pestphp/pest": "^1.21.1",
     "phpstan/phpstan": "^1.4",
-    "friendsofphp/php-cs-fixer": "^3"
+    "friendsofphp/php-cs-fixer": "^3.5"
   },
   "autoload": {
     "psr-4": {

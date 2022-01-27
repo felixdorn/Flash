@@ -3,3 +3,4 @@ vendor
 coverage
 clover.xml
 .php-cs-fixer.cache
+composer.lock
