@@ -9,8 +9,6 @@
 * Fully tested and easily testable
 * Allow functional use
 * Support templates
-* Can be integrated with Redis sessions 
-* Twig Extension
 
 
 Upgrading from 1.x ? [Upgrade](UPGRADE.md)
@@ -110,7 +108,7 @@ $flash->render(); // Won't render anything
 $flash->error('Bad thing.');
 
 $flash->disable();
-// NOTE: Here, when disasbling, you can still clear or render
+// NOTE: Here, when disabling, you can still clear or render
 
 $flash->success('Good thing');
 
@@ -237,28 +235,6 @@ flash();
 // Will flash an error with message Uhh.. and return \Felix\Flash\Flash
 flash('error', 'Uhh..');
 ```
-
-## Twig Extension
-
-There is an extension for twig available.
-You can add it to your environment just like any extension.
-```php
-/** @var \Twig\Environment $twig */
-$twig->addExtension(
-    new \Felix\Flash\Integrations\Twig\FlashExtension()
-);
-``` 
-
-You can only render flashes in Twig, doing something else like clearing flashes should not be done inside template.
-
-```twig
-{{ flash('success') }} // Will render every success flash
-
-{{ flash() }} // Will render every flash
-
-{{ flash('all') }} // Will render every flash  
-```
-
 
 ## Ideas
 * More style templates (easy)

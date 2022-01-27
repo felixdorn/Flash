@@ -13,18 +13,14 @@
     "php": "^8"
   },
   "require-dev": {
-    "pestphp/pest": "^1",
-    "phpstan/phpstan": "^1",
-    "friendsofphp/php-cs-fixer": "^3",
-    "twig/twig": "*"
+    "pestphp/pest": "^1.21",
+    "phpstan/phpstan": "^1.4",
+    "friendsofphp/php-cs-fixer": "^3"
   },
   "autoload": {
     "psr-4": {
       "Felix\\Flash\\": "src/"
-    },
-    "files": [
-      "src/functions.php"
-    ]
+    }
   },
   "autoload-dev": {
     "psr-4": {

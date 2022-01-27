@@ -29,9 +29,6 @@ class Flash
         $this->driver   = $driver;
         $this->template = new InteroperableTemplate($template);
         $this->disabled = false;
-
-        // We initialize the FunctionFlash so flash() function will work
-        FunctionalFlash::getInstance()->setFlash($this);
     }
 
     /**

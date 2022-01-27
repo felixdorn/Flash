@@ -1,6 +1,7 @@
 parameters:
   level: 8
+  
   paths:
-    - src/
-  excludes_analyse:
-    - tests/
+    - src
+  
+  checkMissingIterableValueType: false

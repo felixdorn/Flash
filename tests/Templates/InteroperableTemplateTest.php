@@ -44,13 +44,4 @@ class InteroperableTemplateTest extends TestCase
             $template->toHtml('theType', 'theMessage')
         );
     }
-
-    public function testCanNotConvertToHtmlWithAnythingElse()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        $template = new InteroperableTemplate(['a' => 'b']);
-
-        $template->toHtml('theType', 'theValue');
-    }
 }

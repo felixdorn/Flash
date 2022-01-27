@@ -9,39 +9,28 @@ final class InteroperableTemplate
      */
     private $template;
 
-    /**
-     * @param TemplateInterface|callable|string|InteroperableTemplate $template
-     */
-    public function __construct($template)
+    public function __construct(TemplateInterface|callable|string|InteroperableTemplate $template)
     {
         $this->template = $template;
     }
 
     public function toHtml(string $type, string $flash): string
     {
-        if ($this->template instanceof TemplateInterface ||
+        if (
+            $this->template instanceof TemplateInterface ||
             $this->template instanceof InteroperableTemplate
         ) {
             return $this->template->toHtml($type, $flash);
         }
 
         if (is_callable($this->template)) {
-            $cb = $this->template;
-
-            return $cb($type, $flash);
+            return ($this->template)($type, $flash);
         }
 
-        if (is_string($this->template)) {
-            // So something with <div class="alert alert-{type}">{value}</div> will produce
-            // <div class="alert alert-error>Stop!</div> if $type == error and $flash == Stop!
-            $withType = str_replace('{type}', $type, $this->template);
-
-            // Here we support both flash and value.
-            $withValue = str_replace('{flash}', $flash, $withType);
-
-            return str_replace('{value}', $flash, $withValue);
+        if (!is_string($this->template)) {
+            throw new \InvalidArgumentException('Can not render template of type ' . gettype($this->template));
         }
 
-        throw new \InvalidArgumentException('Can not convert template of type ' . gettype($this->template));
+        return str_replace(['{type}', '{flash}', '{value}'], [$type, $flash, $flash], $this->template);
     }
 }
