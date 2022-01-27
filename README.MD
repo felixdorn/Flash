@@ -1,6 +1,5 @@
 ![Library logo](art/logo.png)
 # Flash
-![Packagist](https://img.shields.io/packagist/l/felixdorn/flash)
 ![Packagist Version](https://img.shields.io/packagist/v/felixdorn/flash)
 [![Build Status](https://travis-ci.org/felixdorn/flash.svg?branch=rc2.0.0)](https://travis-ci.org/felixdorn/flash)
 [![codecov](https://img.shields.io/codecov/c/github/felixdorn/flash)](https://codecov.io/gh/felixdorn/flash)
