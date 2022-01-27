@@ -10,15 +10,13 @@
 * Support templates
 
 
-Upgrading from 1.x ? [Upgrade](UPGRADE.md)
-
 ## Getting started
 
 ```bash
 composer require felixdorn/flash
 ```
 
-Before using the `Flash`™, you need a [Driver](#drivers) that implements the [DriverInterface](src/Drivers/DriverInterface.php) and a Template (it can be almost anything).
+Before using `Flash`, you need a [Driver](#drivers) that implements the [DriverInterface](src/Drivers/DriverInterface.php) and a template.
 
 ```php
 use Felix\Flash\Drivers\SessionDriver;
@@ -36,8 +34,6 @@ $template = new SpectreTemplate();
 
 $flash = new Flash($driver, $template);
 ```
-
-Next: [Usage](#usage)
 
 ## Usage
 
@@ -219,42 +215,12 @@ class MyTemplate implements TemplateInterface {
 
 In this case, you don't need a Template class, and you could just use a string based template but this is how it works.
 
-## Functional use
 
-There is only one method : `flash()`
- 
- > You need to instantiate Flash first, and then you can use flash anywhere after the Flash initialisation
- 
-```php
-$flash = new \Felix\Flash\Flash(...);
+## Testing
 
-// Will return \Felix\Flash\Flash
-flash();
-
-// Will flash an error with message Uhh.. and return \Felix\Flash\Flash
-flash('error', 'Uhh..');
 ```
-
-## Ideas
-* More style templates (easy)
-* Support flashing an array of flash (medium)
-* Refactor the way that FunctionalFlash and `flash` works internally (medium)
-* Event on error, success, info, warning (difficult)
-* RedisDriver (difficult)
-* ...
-
-If you want to help or implement one of these ideas, feel free to submit a PR.
-
-### Contributing
-
-I'm glad you want to contribute, there is a few things ("rules"), to check before.
-
-* Create a new branch.
-* Write tests
-* Run phpcs, phpstan
-* Enjoy!
-
-Thank you!
+composer test
+```
 
 ### Security
 
@@ -265,20 +231,3 @@ If you discover any security related issues, please email github@felixdorn.fr in
 
 ### Contributors
 * [Grafikart](https://github.com/grafikart)
-
-## License
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>
-
-
-[dfg]: #
