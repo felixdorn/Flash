@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Felix\Tests\Flash\Integrations;
-
 
 use Felix\Flash\Integrations\Twig\FlashExtension;
 use PHPUnit\Framework\TestCase;
@@ -16,7 +14,7 @@ class TwigIntegrationTest extends TestCase
      */
     private $twig;
 
-    public function test_it_output_only_a_type_in_twig()
+    public function testItOutputOnlyATypeInTwig()
     {
         flash()->clear();
 
@@ -24,21 +22,19 @@ class TwigIntegrationTest extends TestCase
 
         $output = $this->twig->render('only_success');
 
-
         $this->assertEquals(
             'Hello world!',
             $output
         );
     }
 
-    public function test_it_output_all_flash_in_twig()
+    public function testItOutputAllFlashInTwig()
     {
         flash()->clear();
 
         flash('success', 'Hello world!');
 
         $output = $this->twig->render('all_flashes');
-
 
         $this->assertEquals(
             'Hello world!',
@@ -58,6 +54,4 @@ TWIG
         $this->twig = new Environment($loader, []);
         $this->twig->addExtension(new FlashExtension());
     }
-
-
 }

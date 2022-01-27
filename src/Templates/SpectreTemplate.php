@@ -1,13 +1,11 @@
 <?php
 
-
 namespace Felix\Flash\Templates;
 
 class SpectreTemplate implements TemplateInterface
 {
-
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function toHtml(string $type, string $message)
     {

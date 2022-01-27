@@ -1,12 +1,11 @@
 <?php
 
-
 namespace Felix\Flash\Templates;
 
 class BulmaTemplate implements TemplateInterface
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function toHtml(string $type, string $message)
     {

@@ -1,15 +1,13 @@
 <?php
 
-
 namespace Felix\Tests\Flash\Templates;
-
 
 use Felix\Flash\Templates\SpectreTemplate;
 use Felix\Tests\Flash\TestCase;
 
 class SpectreTemplateTest extends TestCase
 {
-    public function test_toHtml()
+    public function testToHtml()
     {
         $template = new SpectreTemplate();
 

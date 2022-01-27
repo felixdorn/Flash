@@ -21,6 +21,6 @@ class TestCase extends BaseTestCase
     protected function setUp(): void
     {
         $this->driver = new SessionDriver([], ['flash' => []]);
-        $this->flash = new Flash($this->driver, '{value}');
+        $this->flash  = new Flash($this->driver, '{value}');
     }
 }

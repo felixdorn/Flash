@@ -1,14 +1,12 @@
 <?php
 
-
 namespace Felix\Tests\Flash;
 
 use Felix\Flash\FunctionalFlash;
 
 class FunctionalFlashTest extends TestCase
 {
-
-    public function test_get_set()
+    public function testGetSet()
     {
         $flash = new FunctionalFlash();
         $flash->setFlash($this->flash);
@@ -19,7 +17,7 @@ class FunctionalFlashTest extends TestCase
         );
     }
 
-    public function test_flash_function()
+    public function testFlashFunction()
     {
         // Function flash is registered by the setUp parent method
         $flash = FunctionalFlash::getInstance()->getFlash();
@@ -29,13 +27,13 @@ class FunctionalFlashTest extends TestCase
             $flash
         );
 
-        /** Assert flash function returns self when no arguments are passed */
+        /* Assert flash function returns self when no arguments are passed */
         $this->assertEquals(
             $this->flash,
             flash()
         );
 
-        /** Assert return self when arguments are passed */
+        /* Assert return self when arguments are passed */
         $this->assertEquals(
             $this->flash,
             flash('error', 'Mad world.')
@@ -44,10 +42,9 @@ class FunctionalFlashTest extends TestCase
         $this->assertEquals(
             [
                 'error' => [
-                    'Mad world.'
-                ]
+                    'Mad world.',
+                ],
             ], $this->flash->getDriver()->all()
         );
     }
-
 }

@@ -6,7 +6,7 @@ use Felix\Flash\FlashData;
 
 class FlashDataTest extends TestCase
 {
-    public function test_get_type()
+    public function testGetType()
     {
         $data = new FlashData('theType', 'theMessage');
 
@@ -16,7 +16,7 @@ class FlashDataTest extends TestCase
         );
     }
 
-    public function test_get_message()
+    public function testGetMessage()
     {
         $data = new FlashData('theType', 'theMessage');
 

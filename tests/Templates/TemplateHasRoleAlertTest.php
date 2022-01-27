@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Felix\Tests\Flash\Templates;
 
 use Felix\Flash\Templates\BootstrapTemplate;
@@ -12,19 +11,18 @@ use Felix\Tests\Flash\TestCase;
 
 class TemplateHasRoleAlertTest extends TestCase
 {
-
-    public function test_html_based_alerts_have_role_alert()
+    public function testHtmlBasedAlertsHaveRoleAlert()
     {
         $templates = [
             BootstrapTemplate::class,
             BulmaTemplate::class,
             Semantic2Template::class,
-            SpectreTemplate::class
+            SpectreTemplate::class,
         ];
 
         /** @var TemplateInterface $template */
         foreach ($templates as $template) {
-            $template = new $template;
+            $template = new $template();
 
             $this->assertStringContainsString(
                 'role="alert"',

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Felix\Tests\Flash\Templates;
 
 use Felix\Flash\Templates\InteroperableTemplate;
@@ -9,9 +8,9 @@ use Felix\Tests\Flash\TestCase;
 
 class InteroperableTemplateTest extends TestCase
 {
-    public function test_convert_to_html_with_template_interface()
+    public function testConvertToHtmlWithTemplateInterface()
     {
-        $template = new InteroperableTemplate(new class implements TemplateInterface {
+        $template = new InteroperableTemplate(new class() implements TemplateInterface {
             public function toHtml(string $type, string $message)
             {
                 return sprintf('%s: %s', $type, $message);
@@ -24,7 +23,7 @@ class InteroperableTemplateTest extends TestCase
         );
     }
 
-    public function test_convert_to_html_with_string_template()
+    public function testConvertToHtmlWithStringTemplate()
     {
         $template = new InteroperableTemplate('{type}: {value}');
 
@@ -34,7 +33,7 @@ class InteroperableTemplateTest extends TestCase
         );
     }
 
-    public function test__convert_to_html_with_callable()
+    public function testConvertToHtmlWithCallable()
     {
         $template = new InteroperableTemplate(function (string $type, string $message): string {
             return sprintf('%s: %s', $type, $message);
@@ -46,7 +45,7 @@ class InteroperableTemplateTest extends TestCase
         );
     }
 
-    public function test_can_not_convert_to_html_with_anything_else()
+    public function testCanNotConvertToHtmlWithAnythingElse()
     {
         $this->expectException(\InvalidArgumentException::class);
 

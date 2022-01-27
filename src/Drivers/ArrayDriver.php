@@ -1,13 +1,11 @@
 <?php
 
-
 namespace Felix\Flash\Drivers;
 
 use Felix\Flash\FlashData;
 
 class ArrayDriver implements DriverInterface
 {
-
     /**
      * @var mixed[]
      */
@@ -15,6 +13,7 @@ class ArrayDriver implements DriverInterface
 
     /**
      * ArrayDriver constructor.
+     *
      * @param mixed[] $buffer
      */
     public function __construct(array $buffer)
@@ -22,9 +21,8 @@ class ArrayDriver implements DriverInterface
         $this->buffer = $buffer;
     }
 
-
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function clear(): DriverInterface
     {
@@ -33,10 +31,6 @@ class ArrayDriver implements DriverInterface
         return $this;
     }
 
-    /**
-     * @param FlashData $data
-     * @return DriverInterface
-     */
     public function push(FlashData $data): DriverInterface
     {
         if (!array_key_exists($data->getType(), $this->buffer)) {
@@ -45,12 +39,10 @@ class ArrayDriver implements DriverInterface
 
         $this->buffer[$data->getType()][] = $data->getMessage();
 
-
         return $this;
     }
 
     /**
-     * @param string $type
      * @return mixed[]
      */
     public function all(string $type = 'all'): array

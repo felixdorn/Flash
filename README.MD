@@ -1,4 +1,4 @@
-![Library logo](logo.png)
+![Library logo](art/logo.png)
 # Flash
 ![Packagist](https://img.shields.io/packagist/l/felixdorn/flash)
 ![Packagist Version](https://img.shields.io/packagist/v/felixdorn/flash)

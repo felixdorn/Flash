@@ -1,12 +1,11 @@
 <?php
 
-
 namespace Felix\Flash\Templates;
 
 final class InteroperableTemplate
 {
     /**
-     * @var TemplateInterface|callable|string|InteroperableTemplate $template
+     * @var TemplateInterface|callable|string|InteroperableTemplate
      */
     private $template;
 
@@ -39,6 +38,7 @@ final class InteroperableTemplate
 
             // Here we support both flash and value.
             $withValue = str_replace('{flash}', $flash, $withType);
+
             return str_replace('{value}', $flash, $withValue);
         }
 

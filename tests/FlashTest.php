@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Felix\Tests\Flash;
 
 use Felix\Flash\Drivers\ArrayDriver;
@@ -11,7 +10,7 @@ use Felix\Flash\Templates\TestableTemplate;
 
 class FlashTest extends TestCase
 {
-    public function test_success_method_flash_called()
+    public function testSuccessMethodFlashCalled()
     {
         $flash = $this->createPartialMock(Flash::class, ['flash']);
         $flash->expects(
@@ -20,21 +19,21 @@ class FlashTest extends TestCase
         $flash->success('Hello world!');
     }
 
-    public function test_success_method_add_flash_to_driver()
+    public function testSuccessMethodAddFlashToDriver()
     {
         $this->flash->success('Hello world!');
 
         $this->assertEquals(
             [
                 'success' => [
-                    'Hello world!'
-                ]
+                    'Hello world!',
+                ],
             ],
             $this->flash->getDriver()->all()
         );
     }
 
-    public function test_error_method_flash_called()
+    public function testErrorMethodFlashCalled()
     {
         $flash = $this->createPartialMock(Flash::class, ['flash']);
         $flash->expects(
@@ -43,21 +42,21 @@ class FlashTest extends TestCase
         $flash->error('Hello world!');
     }
 
-    public function test_error_method_add_flash_to_driver()
+    public function testErrorMethodAddFlashToDriver()
     {
         $this->flash->error('Hello world!');
 
         $this->assertEquals(
             [
                 'error' => [
-                    'Hello world!'
-                ]
+                    'Hello world!',
+                ],
             ],
             $this->flash->getDriver()->all()
         );
     }
 
-    public function test_warning_method_flash_called()
+    public function testWarningMethodFlashCalled()
     {
         $flash = $this->createPartialMock(Flash::class, ['flash']);
         $flash->expects(
@@ -66,21 +65,21 @@ class FlashTest extends TestCase
         $flash->warning('Hello world!');
     }
 
-    public function test_warning_method_add_flash_to_driver()
+    public function testWarningMethodAddFlashToDriver()
     {
         $this->flash->warning('Hello world!');
 
         $this->assertEquals(
             [
                 'warning' => [
-                    'Hello world!'
-                ]
+                    'Hello world!',
+                ],
             ],
             $this->flash->getDriver()->all()
         );
     }
 
-    public function test_info_method_flash_called()
+    public function testInfoMethodFlashCalled()
     {
         $flash = $this->createPartialMock(Flash::class, ['flash']);
         $flash->expects(
@@ -89,21 +88,21 @@ class FlashTest extends TestCase
         $flash->info('Hello world!');
     }
 
-    public function test_info_method_add_flash_to_driver()
+    public function testInfoMethodAddFlashToDriver()
     {
         $this->flash->info('Hello world!');
 
         $this->assertEquals(
             [
                 'info' => [
-                    'Hello world!'
-                ]
+                    'Hello world!',
+                ],
             ],
             $this->flash->getDriver()->all()
         );
     }
 
-    public function test_set_and_get_template()
+    public function testSetAndGetTemplate()
     {
         $this->flash->setTemplate(
             'Hello world!'
@@ -117,7 +116,7 @@ class FlashTest extends TestCase
         );
     }
 
-    public function test_clear_flashes()
+    public function testClearFlashes()
     {
         $driver = $this->createMock(SessionDriver::class);
 
@@ -130,25 +129,24 @@ class FlashTest extends TestCase
         $this->flash->clear();
     }
 
-    public function test_render_all()
+    public function testRenderAll()
     {
         $driver = $this->createMock(SessionDriver::class);
         $driver->expects(
             $this->once()
         )->method('all')->willReturn([
             'success' => [
-                'Hello world!'
+                'Hello world!',
             ],
             'error' => [
-                'Mad world!'
-            ]
+                'Mad world!',
+            ],
         ]);
 
         $template = $this->createMock(TestableTemplate::class);
         $template->expects(
             $this->exactly(2)
         )->method('toHtml')->withAnyParameters()->willReturn('content');
-
 
         $this->flash->setDriver($driver);
         $this->flash->setTemplate($template);
@@ -158,20 +156,19 @@ class FlashTest extends TestCase
         $this->assertEquals('contentcontent', $output);
     }
 
-    public function test_render_all_with_specific_type()
+    public function testRenderAllWithSpecificType()
     {
         $driver = $this->createMock(ArrayDriver::class);
         $driver->expects(
             $this->once()
         )->method('all')->with('success')->willReturn([
-            'Hello world!'
+            'Hello world!',
         ]);
 
         $template = $this->createMock(TestableTemplate::class);
         $template->expects(
             $this->once()
         )->method('toHtml')->withAnyParameters()->willReturn('content');
-
 
         $this->flash->setDriver($driver);
         $this->flash->setTemplate($template);
@@ -181,7 +178,7 @@ class FlashTest extends TestCase
         $this->assertEquals('content', $output);
     }
 
-    public function test_render_all_with_non_existing_type()
+    public function testRenderAllWithNonExistingType()
     {
         $driver = $this->createMock(ArrayDriver::class);
         $driver->expects(
@@ -193,34 +190,33 @@ class FlashTest extends TestCase
         $this->assertEquals('', $this->flash->render('nonExistingType'));
     }
 
-    public function test_flash_with_custom_types()
+    public function testFlashWithCustomTypes()
     {
         $this->flash->flash('customType', 'theMessage');
 
         $this->assertEquals([
             'customType' => [
-                'theMessage'
-            ]
+                'theMessage',
+            ],
         ], $this->flash->getDriver()->all());
     }
 
-    public function test_clear_with_custom_types()
+    public function testClearWithCustomTypes()
     {
         $this->flash->flash('customType', 'theMessage');
 
         $this->assertEquals([
             'customType' => [
-                'theMessage'
-            ]
+                'theMessage',
+            ],
         ], $this->flash->getDriver()->all());
 
         $this->flash->clear();
 
         $this->assertEquals([], $this->flash->getDriver()->all());
-
     }
 
-    public function test_set_template_from_constructor()
+    public function testSetTemplateFromConstructor()
     {
         $flash = new Flash($this->driver, '{type} {flash}');
 
@@ -230,7 +226,7 @@ class FlashTest extends TestCase
         );
     }
 
-    public function test_flash_are_not_added_when_disabled()
+    public function testFlashAreNotAddedWhenDisabled()
     {
         $this->flash->disable();
 
@@ -240,11 +236,9 @@ class FlashTest extends TestCase
             [],
             $this->flash->getDriver()->all()
         );
-
     }
 
-
-    public function test_enable_flash_after_disabling_them()
+    public function testEnableFlashAfterDisablingThem()
     {
         $this->flash->disable();
         $this->flash->enable();
@@ -254,11 +248,10 @@ class FlashTest extends TestCase
         $this->assertEquals(
             [
                 'warning' => [
-                    'Hello world!'
-                ]
+                    'Hello world!',
+                ],
             ],
             $this->flash->getDriver()->all()
         );
-
     }
 }

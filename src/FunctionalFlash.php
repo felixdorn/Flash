@@ -1,17 +1,16 @@
 <?php
 
-
 namespace Felix\Flash;
 
 /**
- * Class FunctionalFlash
- * @package Felix\Flash
+ * Class FunctionalFlash.
+ *
  * @internal
  */
 class FunctionalFlash
 {
     /**
-     * @var null|FunctionalFlash
+     * @var FunctionalFlash|null
      */
     private static $uniqueInstance = null;
     /**
@@ -19,33 +18,24 @@ class FunctionalFlash
      */
     private $flash = null;
 
-    /**
-     * @return FunctionalFlash
-     */
     public static function getInstance(): FunctionalFlash
     {
         if (self::$uniqueInstance === null) {
-            self::$uniqueInstance = new self;
+            self::$uniqueInstance = new self();
         }
 
         return self::$uniqueInstance;
     }
 
-    /**
-     * @return Flash|null
-     */
     public function getFlash(): ?Flash
     {
         return $this->flash;
     }
 
-    /**
-     * @param Flash $flash
-     * @return FunctionalFlash
-     */
     public function setFlash(Flash $flash): FunctionalFlash
     {
         $this->flash = $flash;
+
         return $this;
     }
 }

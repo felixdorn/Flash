@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Felix\Flash\Integrations\Twig;
 
 use Twig\Extension\AbstractExtension;
@@ -11,7 +10,7 @@ class FlashExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('flash', [$this, 'flash'])
+            new TwigFunction('flash', [$this, 'flash']),
         ];
     }
 

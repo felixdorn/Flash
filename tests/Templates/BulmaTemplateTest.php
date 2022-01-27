@@ -1,15 +1,13 @@
 <?php
 
-
 namespace Felix\Tests\Flash\Templates;
 
-use Felix\Flash\Templates\BootstrapTemplate;
 use Felix\Flash\Templates\BulmaTemplate;
 use Felix\Tests\Flash\TestCase;
 
 class BulmaTemplateTest extends TestCase
 {
-    public function test_to_html()
+    public function testToHtml()
     {
         $template = new BulmaTemplate();
 

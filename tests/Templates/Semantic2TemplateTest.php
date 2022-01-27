@@ -1,15 +1,13 @@
 <?php
 
-
 namespace Felix\Tests\Flash\Templates;
-
 
 use Felix\Flash\Templates\Semantic2Template;
 use Felix\Tests\Flash\TestCase;
 
 class Semantic2TemplateTest extends TestCase
 {
-    public function test_toHtml()
+    public function testToHtml()
     {
         $template = new Semantic2Template();
 
@@ -23,5 +21,4 @@ class Semantic2TemplateTest extends TestCase
             $template->toHtml('theOtherType', 'theOtherMessage')
         );
     }
-
 }

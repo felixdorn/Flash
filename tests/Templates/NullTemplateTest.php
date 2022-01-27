@@ -1,16 +1,14 @@
 <?php
 
-
 namespace Felix\Tests\Flash\Templates;
-
 
 use Felix\Flash\Templates\NullTemplate;
 use Felix\Tests\Flash\TestCase;
 
 class NullTemplateTest extends TestCase
 {
-
-    public function test_toHtml() {
+    public function testToHtml()
+    {
         $template = new NullTemplate();
 
         $this->assertEquals(
@@ -18,5 +16,4 @@ class NullTemplateTest extends TestCase
             $template->toHtml('some', 'thing')
         );
     }
-
 }

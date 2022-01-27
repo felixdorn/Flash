@@ -1,13 +1,11 @@
 <?php
 
-
 namespace Felix\Flash\Templates;
 
 class Semantic2Template implements TemplateInterface
 {
-
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function toHtml(string $type, string $message)
     {

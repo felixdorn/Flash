@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Felix\Flash;
 
 use Felix\Flash\Drivers\DriverInterface;
@@ -9,7 +8,6 @@ use Felix\Flash\Templates\TemplateInterface;
 
 class Flash
 {
-
     /**
      * @var DriverInterface
      */
@@ -24,12 +22,11 @@ class Flash
     private $disabled;
 
     /**
-     * @param DriverInterface $driver
      * @param TemplateInterface|callable|string|InteroperableTemplate $template
      */
     public function __construct(DriverInterface $driver, $template)
     {
-        $this->driver = $driver;
+        $this->driver   = $driver;
         $this->template = new InteroperableTemplate($template);
         $this->disabled = false;
 
@@ -37,9 +34,7 @@ class Flash
         FunctionalFlash::getInstance()->setFlash($this);
     }
 
-
     /**
-     * @param string $message
      * @return $this
      */
     public function success(string $message): Flash
@@ -50,8 +45,6 @@ class Flash
     }
 
     /**
-     * @param string $type
-     * @param string $message
      * @return $this
      */
     public function flash(string $type, string $message): Flash
@@ -64,12 +57,10 @@ class Flash
             new FlashData($type, $message)
         );
 
-
         return $this;
     }
 
     /**
-     * @param string $message
      * @return $this
      */
     public function error(string $message): Flash
@@ -80,7 +71,6 @@ class Flash
     }
 
     /**
-     * @param string $message
      * @return $this
      */
     public function warning(string $message): Flash
@@ -90,26 +80,19 @@ class Flash
         return $this;
     }
 
-    /**
-     * @return DriverInterface
-     */
     public function getDriver(): DriverInterface
     {
         return $this->driver;
     }
 
-    /**
-     * @param DriverInterface $driver
-     * @return Flash
-     */
     public function setDriver(DriverInterface $driver): Flash
     {
         $this->driver = $driver;
+
         return $this;
     }
 
     /**
-     * @param string $message
      * @return $this
      */
     public function info(string $message): Flash
@@ -126,9 +109,6 @@ class Flash
         return $this;
     }
 
-    /**
-     * @return InteroperableTemplate
-     */
     public function getTemplate(): InteroperableTemplate
     {
         return $this->template;
@@ -136,7 +116,6 @@ class Flash
 
     /**
      * @param TemplateInterface|callable|string|InteroperableTemplate $template
-     * @return Flash
      */
     public function setTemplate($template): Flash
     {
@@ -148,7 +127,7 @@ class Flash
     public function render(string $type = 'all'): string
     {
         $flashes = $this->driver->all($type);
-        $buffer = '';
+        $buffer  = '';
 
         if ($type === 'all') {
             foreach ($flashes as $flashTypes) {
@@ -167,9 +146,6 @@ class Flash
         return $buffer;
     }
 
-    /**
-     * @return Flash
-     */
     public function disable(): Flash
     {
         $this->disabled = true;
@@ -177,9 +153,6 @@ class Flash
         return $this;
     }
 
-    /**
-     * @return Flash
-     */
     public function enable(): Flash
     {
         $this->disabled = false;
@@ -187,17 +160,11 @@ class Flash
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isDisabled(): bool
     {
         return $this->disabled;
     }
 
-    /**
-     * @return bool
-     */
     public function isEnabled(): bool
     {
         return !$this->disabled;

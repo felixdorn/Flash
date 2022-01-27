@@ -18,13 +18,14 @@ class SessionDriver implements DriverInterface
 
     /**
      * SessionDriver constructor.
+     *
      * @param mixed[] $sessionOption
      * @param mixed[] $session
      */
     public function __construct(array $sessionOption = [], array $session = [])
     {
         $this->sessionOption = $sessionOption;
-        $this->session = $session;
+        $this->session       = $session;
     }
 
     /**
@@ -41,14 +42,11 @@ class SessionDriver implements DriverInterface
 
         if (empty($this->session) || !array_key_exists('flash', $this->session)) {
             $this->session = [
-                'flash' => []
+                'flash' => [],
             ];
         }
     }
 
-    /**
-     * @return DriverInterface
-     */
     public function clear(): DriverInterface
     {
         $this->ensureSessionStarted();
@@ -58,10 +56,6 @@ class SessionDriver implements DriverInterface
         return $this;
     }
 
-    /**
-     * @param FlashData $data
-     * @return DriverInterface
-     */
     public function push(FlashData $data): DriverInterface
     {
         $this->ensureSessionStarted();
@@ -76,7 +70,6 @@ class SessionDriver implements DriverInterface
     }
 
     /**
-     * @param string $type
      * @return mixed[]
      */
     public function all(string $type = 'all'): array
@@ -86,7 +79,6 @@ class SessionDriver implements DriverInterface
         if ($type === 'all') {
             return $this->session['flash'];
         }
-
 
         if (array_key_exists($type, $this->session['flash'])) {
             return $this->session['flash'][$type];

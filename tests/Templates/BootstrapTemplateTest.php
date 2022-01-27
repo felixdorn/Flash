@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Felix\Tests\Flash\Templates;
 
 use Felix\Flash\Templates\BootstrapTemplate;
@@ -8,7 +7,7 @@ use Felix\Tests\Flash\TestCase;
 
 class BootstrapTemplateTest extends TestCase
 {
-    public function test_to_html()
+    public function testToHtml()
     {
         $template = new BootstrapTemplate();
 

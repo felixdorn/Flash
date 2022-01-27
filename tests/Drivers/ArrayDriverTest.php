@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Felix\Tests\Flash\Drivers;
 
 use Felix\Flash\Drivers\ArrayDriver;
@@ -9,10 +8,10 @@ use Felix\Tests\Flash\TestCase;
 
 class ArrayDriverTest extends TestCase
 {
-    public function test_clear()
+    public function testClear()
     {
         $driver = new ArrayDriver([
-            'a' => ['b', 'c']
+            'a' => ['b', 'c'],
         ]);
 
         $driver->clear();
@@ -20,7 +19,7 @@ class ArrayDriverTest extends TestCase
         $this->assertEquals([], $driver->all());
     }
 
-    public function test_push()
+    public function testPush()
     {
         $data = new FlashData('theType', 'theMessage');
 
@@ -28,23 +27,23 @@ class ArrayDriverTest extends TestCase
 
         $this->assertEquals([
             'theType' => [
-                'theMessage'
-            ]
+                'theMessage',
+            ],
         ], $this->driver->all());
     }
 
-    public function test_all()
+    public function testAll()
     {
         $driver = new ArrayDriver([
-            'a' => ['b', 'c']
+            'a' => ['b', 'c'],
         ]);
 
         $this->assertEquals([
-            'a' => ['b', 'c']
+            'a' => ['b', 'c'],
         ], $driver->all());
 
         $this->assertEquals([
-            'b', 'c'
+            'b', 'c',
         ], $driver->all('a'));
     }
 }

@@ -2,3 +2,4 @@ vendor
 .idea
 coverage
 clover.xml
+.php-cs-fixer.cache

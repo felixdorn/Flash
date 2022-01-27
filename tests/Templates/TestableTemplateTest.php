@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Felix\Tests\Flash\Templates;
 
 use Felix\Flash\Templates\TestableTemplate;
@@ -8,8 +7,7 @@ use Felix\Tests\Flash\TestCase;
 
 class TestableTemplateTest extends TestCase
 {
-
-    public function test_toHtml()
+    public function testToHtml()
     {
         $template = new TestableTemplate();
 
